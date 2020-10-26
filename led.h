@@ -2,6 +2,7 @@
 #define _LED_H_
 
 void LED_init(void);
+void LED_on(void);
 
 #endif // _LED_H_
 
