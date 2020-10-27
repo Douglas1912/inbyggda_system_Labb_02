@@ -8,25 +8,35 @@
 #include "serial.h"
 #include "timer.h"
 
-uint8_t number = 1;
+#define LED PORTB2
 
-void main (void) {
+int main (void) {
 	uart_init();
 	timer_init();
 	LED_init();
+	uint8_t timerOverflowCount=0;
 
-	while(1)
-    {
-	
-        // check if the timer count reaches 156
-        if (TCNT0 >= OCR0A)
-        {
-            TCNT0 = 0;            // reset counter
-			number++;
-		}
-		if(number >= 10){
-			LED_on();
-			number = 0;			
-		}		
+	while(1){
+		
+		if (TIFR0 & (1 << OCF0A )) {
+			
+			timerOverflowCount++;
+			TIFR0 |= (1 << OCF0A );	//clear timer0 overflow flag
+			
+			if (timerOverflowCount>=10){
+				
+				PORTB^=(1<<LED);	
+				timerOverflowCount=0;
+			}
+		}			
 	}
 }
+
+
+
+
+
+
+
+
+        

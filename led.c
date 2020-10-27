@@ -8,7 +8,7 @@ void LED_init() {
     
 }
 
-void LED_on(){
+void toggle_LED(){
 	
 	PORTB^=(1<<PORTB2);
 }

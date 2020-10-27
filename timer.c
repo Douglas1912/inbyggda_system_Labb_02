@@ -5,11 +5,11 @@
 void timer_init() { 
 
 	/* CTC mode */
-	TCCR0A |= (1 << WGM01);    
-	
+	TCCR0A |= (1 << WGM01);  
+
 	// set up timer with prescaler = 1024 Clock Select Bits,
 	//start counting every 1024 MCs-machine cycle
-    TCCR0B |= (1 << CS02)|(1 << CS00);
+    TCCR0B |= (1 << CS00)|(1 << CS02);
   
     // initialize counter
     TCNT0 = 0;
