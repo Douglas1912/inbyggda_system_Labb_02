@@ -8,28 +8,38 @@
 #include "serial.h"
 #include "timer.h"
 
-#define LED PORTB2
+#define LED PD6
+
+void set_pwm(uint8_t data);
 
 int main (void) {
 	uart_init();
 	timer_init();
 	LED_init();
-	uint8_t timerOverflowCount=0;
+	uint8_t i=0;
+	
+	uint8_t fadeValues[7] = {0,20,80,120,160,200,255};
 
 	while(1){
 		
-		if (TIFR0 & (1 << OCF0A )) {
-			
-			timerOverflowCount++;
-			TIFR0 |= (1 << OCF0A );	//clear timer0 overflow flag
-			
-			if (timerOverflowCount>=10){
-				
-				PORTB^=(1<<LED);	
-				timerOverflowCount=0;
-			}
-		}			
+		for(i=0;i<sizeof(fadeValues)/sizeof(fadeValues[0]);i++)
+        {
+            set_pwm(fadeValues[i]);
+            _delay_ms(200);
+        }
+
+        for(i=sizeof(fadeValues)/sizeof(fadeValues[0]-1);i>0;i--)
+        {
+            set_pwm(fadeValues[i]);
+            _delay_ms(200);
+        }	
 	}
+	return 0;	
+}
+
+void set_pwm(uint8_t data)
+{
+    OCR0A=data;
 }
 
 

@@ -3,12 +3,12 @@
 
 void LED_init() {
 	
-	// Arduino digital pin 10 (pin 2 of PORTB) for output
-    DDRB |= (1<<DDB2); // PORTB2
+
+    DDRD |= (1 << 6); //OC0A an output
     
 }
 
 void toggle_LED(){
 	
-	PORTB^=(1<<PORTB2);
+	PORTD^=(1<<PD6);
 }
